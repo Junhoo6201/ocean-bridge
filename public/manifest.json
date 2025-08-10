@@ -1,0 +1,19 @@
+{
+  "name": "Ocean - Linear Design System",
+  "short_name": "Ocean",
+  "description": "A modern design system inspired by Linear.app",
+  "theme_color": "#08090a",
+  "background_color": "#08090a",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

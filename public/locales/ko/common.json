@@ -1,0 +1,99 @@
+{
+  "common": {
+    "book": "예약하기",
+    "cancel": "취소",
+    "confirm": "확인",
+    "next": "다음",
+    "previous": "이전",
+    "submit": "제출",
+    "save": "저장",
+    "edit": "수정",
+    "delete": "삭제",
+    "search": "검색",
+    "filter": "필터",
+    "sort": "정렬",
+    "viewDetails": "상세보기",
+    "loading": "로딩 중...",
+    "error": "오류",
+    "success": "성공",
+    "minutes": "분",
+    "hours": "시간",
+    "days": "일",
+    "adult": "성인",
+    "child": "어린이",
+    "person": "명"
+  },
+  "navigation": {
+    "home": "홈",
+    "products": "투어",
+    "about": "소개",
+    "contact": "문의",
+    "myBooking": "내 예약",
+    "admin": "관리자"
+  },
+  "hero": {
+    "title": "이시가키의 푸른 바다로",
+    "subtitle": "일본어 몰라도 OK! 한국어로 완벽한 예약",
+    "cta": "투어 둘러보기"
+  },
+  "products": {
+    "diving": "다이빙",
+    "snorkel": "스노클링",
+    "sup": "SUP",
+    "kayak": "카약",
+    "stargazing": "별 관측",
+    "glassboat": "글라스보트",
+    "iriomote": "이리오모테",
+    "popular": "인기",
+    "new": "신규",
+    "difficulty": {
+      "beginner": "초급",
+      "intermediate": "중급",
+      "advanced": "상급",
+      "all": "모든 레벨"
+    },
+    "includes": "포함사항",
+    "excludes": "불포함",
+    "preparation": "준비물",
+    "meetingPoint": "집합 장소",
+    "duration": "소요시간",
+    "priceFrom": "부터",
+    "perPerson": "1인"
+  },
+  "booking": {
+    "selectDate": "날짜 선택",
+    "selectParticipants": "인원 선택",
+    "contactInfo": "연락처 정보",
+    "name": "이름",
+    "phone": "전화번호",
+    "email": "이메일",
+    "kakaoId": "카카오톡 ID (선택)",
+    "specialRequests": "특별 요청사항",
+    "requestBooking": "예약 요청",
+    "bookingConfirmed": "예약이 확정되었습니다",
+    "bookingPending": "예약 요청이 접수되었습니다",
+    "paymentRequired": "결제가 필요합니다"
+  },
+  "policy": {
+    "cancellation": "취소 정책",
+    "weather": "기상 정책",
+    "refund": "환불 정책",
+    "safety": "안전 수칙"
+  },
+  "places": {
+    "meetingPoint": "집합 장소",
+    "nearbyFood": "근처 맛집",
+    "transportation": "교통",
+    "viewOnMap": "지도에서 보기",
+    "distance": "거리",
+    "rating": "평점"
+  },
+  "footer": {
+    "company": "Ishigaki Connect",
+    "tagline": "한국 여행자와 이시가키를 연결합니다",
+    "contact": "문의",
+    "terms": "이용약관",
+    "privacy": "개인정보처리방침",
+    "followUs": "팔로우"
+  }
+}

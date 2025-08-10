@@ -1,0 +1,99 @@
+{
+  "common": {
+    "book": "予約する",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "next": "次へ",
+    "previous": "前へ",
+    "submit": "送信",
+    "save": "保存",
+    "edit": "編集",
+    "delete": "削除",
+    "search": "検索",
+    "filter": "フィルター",
+    "sort": "並び替え",
+    "viewDetails": "詳細を見る",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "minutes": "分",
+    "hours": "時間",
+    "days": "日",
+    "adult": "大人",
+    "child": "子供",
+    "person": "名"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "products": "ツアー",
+    "about": "会社概要",
+    "contact": "お問い合わせ",
+    "myBooking": "予約確認",
+    "admin": "管理者"
+  },
+  "hero": {
+    "title": "石垣島の青い海へ",
+    "subtitle": "韓国語で簡単予約！言語の壁なし",
+    "cta": "ツアーを見る"
+  },
+  "products": {
+    "diving": "ダイビング",
+    "snorkel": "シュノーケリング",
+    "sup": "SUP",
+    "kayak": "カヤック",
+    "stargazing": "星空観察",
+    "glassboat": "グラスボート",
+    "iriomote": "西表島",
+    "popular": "人気",
+    "new": "新着",
+    "difficulty": {
+      "beginner": "初級",
+      "intermediate": "中級",
+      "advanced": "上級",
+      "all": "全レベル"
+    },
+    "includes": "含まれるもの",
+    "excludes": "含まれないもの",
+    "preparation": "持ち物",
+    "meetingPoint": "集合場所",
+    "duration": "所要時間",
+    "priceFrom": "から",
+    "perPerson": "1名"
+  },
+  "booking": {
+    "selectDate": "日付選択",
+    "selectParticipants": "人数選択",
+    "contactInfo": "連絡先情報",
+    "name": "お名前",
+    "phone": "電話番号",
+    "email": "メールアドレス",
+    "kakaoId": "カカオトークID（任意）",
+    "specialRequests": "特別なご要望",
+    "requestBooking": "予約リクエスト",
+    "bookingConfirmed": "予約が確定しました",
+    "bookingPending": "予約リクエストを受け付けました",
+    "paymentRequired": "お支払いが必要です"
+  },
+  "policy": {
+    "cancellation": "キャンセルポリシー",
+    "weather": "気象ポリシー",
+    "refund": "返金ポリシー",
+    "safety": "安全規則"
+  },
+  "places": {
+    "meetingPoint": "集合場所",
+    "nearbyFood": "近くの飲食店",
+    "transportation": "交通",
+    "viewOnMap": "地図で見る",
+    "distance": "距離",
+    "rating": "評価"
+  },
+  "footer": {
+    "company": "石垣コネクト",
+    "tagline": "韓国の旅行者と石垣島を繋ぎます",
+    "contact": "お問い合わせ",
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー",
+    "followUs": "フォロー"
+  }
+}
