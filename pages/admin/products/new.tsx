@@ -9,6 +9,8 @@ import ImageUploader from '@/components/admin/ImageUploader';
 import ListManager from '@/components/admin/ListManager';
 import { ishigakiTheme } from '@/styles/ishigaki-theme';
 import { supabase } from '@/lib/supabase/client';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { useAuth } from '@/hooks/useAuth';
 import type { Product } from '@/types/database';
 
 // Styled Components
@@ -157,8 +159,9 @@ const FormActions = styled.div`
   justify-content: flex-end;
 `;
 
-export default function AdminProductNewPage() {
+function AdminProductNewPageContent() {
   const router = useRouter();
+  const { signOut } = useAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title_ko: '',
@@ -191,6 +194,26 @@ export default function AdminProductNewPage() {
     setLoading(true);
 
     try {
+      // 현재 사용자 확인 (옵션)
+      const { data: { user } } = await supabase.auth.getUser();
+      console.log('Current user:', user);
+      
+      // Shop ID를 null로 설정 (외래키 제약이 없을 경우)
+      // 또는 기존 샵 조회
+      let shopId = null;
+      
+      const { data: shops, error: shopError } = await supabase
+        .from('shops')
+        .select('id')
+        .limit(1);
+
+      if (!shopError && shops && shops.length > 0) {
+        shopId = shops[0].id;
+        console.log('Using existing shop:', shopId);
+      } else {
+        console.log('No shop found, using null shop_id');
+      }
+
       const productData = {
         ...formData,
         includes_ko: JSON.stringify(formData.includes_ko),
@@ -199,22 +222,55 @@ export default function AdminProductNewPage() {
         excludes_ja: JSON.stringify(formData.excludes_ja),
         preparation_ko: JSON.stringify(formData.preparation_ko),
         preparation_ja: JSON.stringify(formData.preparation_ja),
-        shop_id: null, // 나중에 shop 관리 기능 추가시 설정
-        meeting_point_id: null // 나중에 place 관리 기능 추가시 설정
+        shop_id: shopId, // 기본 샵 ID 사용
+        price_adult_jpy: Math.round(formData.price_adult_krw / 10), // KRW to JPY 대략 변환
+        price_child_jpy: formData.price_child_krw ? Math.round(formData.price_child_krw / 10) : null,
+        meeting_point_id: null,
+        age_limit_min: null,
+        age_limit_max: null,
+        display_order: 0
       };
 
+      console.log('Inserting product with data:', productData);
+      
       const { data, error } = await supabase
         .from('products')
         .insert([productData])
         .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error details:', error);
+        throw error;
+      }
 
       alert('상품이 추가되었습니다!');
       router.push('/admin/products');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating product:', error);
-      alert('상품 추가 중 오류가 발생했습니다.');
+      
+      // 더 자세한 오류 메시지 표시
+      let errorMessage = '상품 추가 중 오류가 발생했습니다.\n';
+      
+      if (error.message) {
+        errorMessage += `\n오류: ${error.message}`;
+      }
+      
+      if (error.code) {
+        errorMessage += `\n코드: ${error.code}`;
+      }
+      
+      if (error.details) {
+        errorMessage += `\n상세: ${error.details}`;
+      }
+      
+      // Supabase 특정 오류 처리
+      if (error.message?.includes('new row violates row-level security policy')) {
+        errorMessage = '권한이 없습니다. 관리자로 로그인했는지 확인해주세요.';
+      } else if (error.message?.includes('violates foreign key constraint')) {
+        errorMessage = '필요한 참조 데이터가 없습니다. Shop이 존재하는지 확인해주세요.';
+      }
+      
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -502,5 +558,13 @@ export default function AdminProductNewPage() {
         </Container>
       </PageContainer>
     </>
+  );
+}
+
+export default function AdminProductNewPage() {
+  return (
+    <ProtectedRoute requireAdmin={true}>
+      <AdminProductNewPageContent />
+    </ProtectedRoute>
   );
 }

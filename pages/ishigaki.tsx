@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { ishigakiTheme, ishigakiCSSVariables } from '../src/styles/ishigaki-theme';
+import { ishigakiTheme } from '../src/styles/ishigaki-theme';
 import IshigakiNavigation from '../src/components/ishigaki/IshigakiNavigation';
 import IshigakiHero from '../src/components/ishigaki/IshigakiHero';
 import IshigakiCard from '../src/components/ishigaki/IshigakiCard';
 import IshigakiButton from '../src/components/ishigaki/IshigakiButton';
 
 const GlobalStyles = styled.div`
-  ${ishigakiCSSVariables}
-  
   * {
     margin: 0;
     padding: 0;

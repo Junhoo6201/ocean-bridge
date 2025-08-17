@@ -9,6 +9,7 @@ import { Button, Card, Badge, Text, Footer } from '@/components';
 import IshigakiNavigation from '@/components/ishigaki/IshigakiNavigation';
 import IshigakiCard from '@/components/ishigaki/IshigakiCard';
 import IshigakiButton from '@/components/ishigaki/IshigakiButton';
+import { BookingForm } from '@/components/booking/BookingForm';
 import { ishigakiTheme } from '@/styles/ishigaki-theme';
 import { supabase } from '@/lib/supabase/client';
 import type { Product } from '@/types/database';
@@ -204,11 +205,6 @@ const BookingCard = styled.div`
   position: sticky;
   top: 90px;
   height: fit-content;
-  background: ${ishigakiTheme.colors.background.elevated};
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: ${ishigakiTheme.shadows.lg};
-  border: 1px solid ${ishigakiTheme.colors.border.light};
 `;
 
 const PriceSection = styled.div`
@@ -307,6 +303,7 @@ export default function ProductDetailPage({ product, relatedProducts }: ProductD
   const router = useRouter();
   const isKorean = i18n.language === 'ko';
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showBookingForm, setShowBookingForm] = useState(false);
 
   // JSON 파싱 안전하게 처리
   const parseJsonSafely = (data: string | null, defaultValue: any[] = []) => {
@@ -506,45 +503,59 @@ export default function ProductDetailPage({ product, relatedProducts }: ProductD
 
             {/* Right Column - Booking Card */}
             <BookingCard>
-              <PriceSection>
-                <PriceLabel>1인 기준</PriceLabel>
-                <Price>₩{product.price_adult_krw?.toLocaleString()}</Price>
-                <PriceUnit>성인 / 1인</PriceUnit>
-                {product.price_child_krw && (
-                  <p style={{ fontSize: '14px', color: ishigakiTheme.colors.text.secondary, marginTop: '8px' }}>
-                    어린이: ₩{product.price_child_krw.toLocaleString()}
-                  </p>
-                )}
-              </PriceSection>
+              {!showBookingForm ? (
+                <div 
+                  style={{
+                    background: ishigakiTheme.colors.background.elevated,
+                    borderRadius: '20px',
+                    padding: '32px',
+                    boxShadow: ishigakiTheme.shadows.lg,
+                    border: `1px solid ${ishigakiTheme.colors.border.light}`,
+                  }}
+                >
+                  <PriceSection>
+                    <PriceLabel>1인 기준</PriceLabel>
+                    <Price>₩{product.price_adult_krw?.toLocaleString()}</Price>
+                    <PriceUnit>성인 / 1인</PriceUnit>
+                    {product.price_child_krw && (
+                      <p style={{ fontSize: '14px', color: ishigakiTheme.colors.text.secondary, marginTop: '8px' }}>
+                        어린이: ₩{product.price_child_krw.toLocaleString()}
+                      </p>
+                    )}
+                  </PriceSection>
 
-              <InfoGrid>
-                <InfoRow>
-                  <InfoLabel>소요시간</InfoLabel>
-                  <InfoValue>{product.duration_minutes}분</InfoValue>
-                </InfoRow>
-                <InfoRow>
-                  <InfoLabel>최소 인원</InfoLabel>
-                  <InfoValue>{product.min_participants || 2}명</InfoValue>
-                </InfoRow>
-                <InfoRow>
-                  <InfoLabel>최대 인원</InfoLabel>
-                  <InfoValue>{product.max_participants || 10}명</InfoValue>
-                </InfoRow>
-              </InfoGrid>
+                  <InfoGrid>
+                    <InfoRow>
+                      <InfoLabel>소요시간</InfoLabel>
+                      <InfoValue>{product.duration_minutes}분</InfoValue>
+                    </InfoRow>
+                    <InfoRow>
+                      <InfoLabel>최소 인원</InfoLabel>
+                      <InfoValue>{product.min_participants || 2}명</InfoValue>
+                    </InfoRow>
+                    <InfoRow>
+                      <InfoLabel>최대 인원</InfoLabel>
+                      <InfoValue>{product.max_participants || 10}명</InfoValue>
+                    </InfoRow>
+                  </InfoGrid>
 
-              <IshigakiButton
-                variant="coral"
-                size="large"
-                glow
-                style={{ width: '100%' }}
-                onClick={() => router.push(`/booking/new?product=${product.id}`)}
-              >
-                예약하기
-              </IshigakiButton>
+                  <IshigakiButton
+                    variant="coral"
+                    size="large"
+                    glow
+                    style={{ width: '100%' }}
+                    onClick={() => setShowBookingForm(true)}
+                  >
+                    예약하기
+                  </IshigakiButton>
 
-              <ContactBox>
-                문의: 카카오톡 @ishigaki-connect
-              </ContactBox>
+                  <ContactBox>
+                    문의: 카카오톡 @ishigaki-connect
+                  </ContactBox>
+                </div>
+              ) : (
+                <BookingForm product={product} />
+              )}
             </BookingCard>
           </ContentGrid>
 

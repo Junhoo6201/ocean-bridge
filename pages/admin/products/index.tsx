@@ -7,6 +7,8 @@ import IshigakiNavigation from '@/components/ishigaki/IshigakiNavigation';
 import IshigakiButton from '@/components/ishigaki/IshigakiButton';
 import { ishigakiTheme } from '@/styles/ishigaki-theme';
 import { supabase } from '@/lib/supabase/client';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { useAuth } from '@/hooks/useAuth';
 import type { Product } from '@/types/database';
 
 // Styled Components
@@ -173,8 +175,9 @@ const LoadingContainer = styled.div`
   color: ${ishigakiTheme.colors.text.secondary};
 `;
 
-export default function AdminProductsPage() {
+function AdminProductsPageContent() {
   const router = useRouter();
+  const { signOut } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
@@ -268,8 +271,13 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleNavClick = (href: string) => {
-    router.push(href);
+  const handleNavClick = async (href: string) => {
+    if (href === '/logout') {
+      await signOut();
+      router.push('/auth/admin-login');
+    } else {
+      router.push(href);
+    }
   };
 
   return (
@@ -421,5 +429,13 @@ export default function AdminProductsPage() {
         </Container>
       </PageContainer>
     </>
+  );
+}
+
+export default function AdminProductsPage() {
+  return (
+    <ProtectedRoute requireAdmin={true}>
+      <AdminProductsPageContent />
+    </ProtectedRoute>
   );
 }

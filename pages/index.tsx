@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import styled from 'styled-components';
-import { Button, Card, Badge, Text, ImageCard, Hero, Footer } from '../src/components';
+import { Button, Footer } from '../src/components';
 import IshigakiHero from '../src/components/ishigaki/IshigakiHero';
 import IshigakiCard from '../src/components/ishigaki/IshigakiCard';
 import IshigakiNavigation from '../src/components/ishigaki/IshigakiNavigation';
@@ -103,7 +103,7 @@ const CTADescription = styled.p`
 `;
 
 export default function HomePage() {
-  const { t } = useTranslation('common');
+  const { } = useTranslation('common');
   const router = useRouter();
   const [popularProducts, setPopularProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -144,7 +144,7 @@ export default function HomePage() {
       subtitle: '맨타를 만나는 특별한 경험',
       image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop',
       description: '세계적으로 유명한 이시가키의 맨타 포인트에서 다이빙',
-      price: '₩85,000',
+      price: '85,000',
       duration: '3시간',
       difficulty: '초급',
       popular: true
@@ -155,7 +155,7 @@ export default function HomePage() {
       subtitle: '카비라만의 맑은 바다',
       image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop',
       description: '아름다운 산호초와 열대어를 만나는 스노클링',
-      price: '₩65,000',
+      price: '65,000',
       duration: '2시간',
       difficulty: '초급',
       popular: true
@@ -166,7 +166,7 @@ export default function HomePage() {
       subtitle: '잔잔한 바다 위 명상',
       image: 'https://images.unsplash.com/photo-1544919982-b61976f0ba43?w=800&h=600&fit=crop',
       description: 'SUP 보드와 카약으로 즐기는 평화로운 시간',
-      price: '₩55,000',
+      price: '55,000',
       duration: '2시간',
       difficulty: '초급',
       popular: false
@@ -177,7 +177,7 @@ export default function HomePage() {
       subtitle: '일본 최초 별빛보호구역',
       image: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=800&h=600&fit=crop',
       description: '도시에서는 볼 수 없는 은하수를 관찰',
-      price: '₩45,000',
+      price: '45,000',
       duration: '2시간',
       difficulty: '모든 레벨',
       popular: true
@@ -188,7 +188,7 @@ export default function HomePage() {
       subtitle: '원시 정글 탐험',
       image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop',
       description: '맹그로브 숲과 폭포를 만나는 정글 트레킹',
-      price: '₩120,000',
+      price: '120,000',
       duration: '8시간',
       difficulty: '중급',
       popular: false
@@ -199,7 +199,7 @@ export default function HomePage() {
       subtitle: '물에 안 들어가도 OK',
       image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=600&fit=crop',
       description: '유리 바닥 보트로 산호초 관찰',
-      price: '₩35,000',
+      price: '35,000',
       duration: '1시간',
       difficulty: '모든 레벨',
       popular: false
@@ -329,8 +329,8 @@ export default function HomePage() {
                     variant="gradient"
                     image={product.images?.[0]}
                     title={product.title_ko}
-                    description={product.description_ko}
-                    price={product.price_adult_krw?.toLocaleString()}
+                    description={product.description_ko || undefined}
+                    price={product.price_adult_krw?.toLocaleString('ko-KR')}
                     badge={
                       product.difficulty === 'beginner' ? '초급' :
                       product.difficulty === 'intermediate' ? '중급' :

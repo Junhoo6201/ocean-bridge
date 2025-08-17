@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { ishigakiTheme } from '@/styles/ishigaki-theme';
 import { createBookingRequest } from '@/services/booking';
@@ -90,11 +90,9 @@ export function BookingForm({ product }: BookingFormProps) {
 
   return (
     <div 
-      className="p-6 rounded-xl"
+      className="p-6"
       style={{
         background: ishigakiTheme.colors.background.elevated,
-        boxShadow: ishigakiTheme.shadows.md,
-        border: `1px solid ${ishigakiTheme.colors.border.light}`,
       }}
     >
       <h2 

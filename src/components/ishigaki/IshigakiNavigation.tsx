@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { ishigakiTheme } from '../../styles/ishigaki-theme';
+import { useAuth } from '../../hooks/useAuth';
 
 interface IshigakiNavigationProps {
   logo?: string;
@@ -243,6 +245,8 @@ const IshigakiNavigation: React.FC<IshigakiNavigationProps> = ({
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, signOut, loading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -253,8 +257,18 @@ const IshigakiNavigation: React.FC<IshigakiNavigationProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleItemClick = (href: string) => {
+  const handleItemClick = async (href: string) => {
     setMobileMenuOpen(false);
+    
+    if (href === '/logout') {
+      await signOut();
+      router.push('/');
+      return;
+    }
+    
+    // 항상 router.push를 사용하고, onItemClick은 추가 작업용으로만 사용
+    router.push(href);
+    
     if (onItemClick) {
       onItemClick(href);
     }
@@ -286,9 +300,42 @@ const IshigakiNavigation: React.FC<IshigakiNavigationProps> = ({
                 {item.label}
               </NavItem>
             ))}
-            <CTAButton onClick={() => handleItemClick('/booking')}>
-              예약하기
-            </CTAButton>
+            {!loading && (
+              user ? (
+                <>
+                  <CTAButton 
+                    onClick={() => handleItemClick('/products')}
+                    style={{ marginRight: '8px' }}
+                  >
+                    예약하기
+                  </CTAButton>
+                  <NavItem
+                    href="/logout"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleItemClick('/logout');
+                    }}
+                  >
+                    로그아웃
+                  </NavItem>
+                </>
+              ) : (
+                <>
+                  <NavItem
+                    href="/auth/login"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleItemClick('/auth/login');
+                    }}
+                  >
+                    로그인
+                  </NavItem>
+                  <CTAButton onClick={() => handleItemClick('/auth/signup')}>
+                    회원가입
+                  </CTAButton>
+                </>
+              )
+            )}
           </NavItems>
 
           <MobileMenuButton
@@ -317,6 +364,51 @@ const IshigakiNavigation: React.FC<IshigakiNavigationProps> = ({
             {item.label}
           </MobileNavItem>
         ))}
+        {!loading && (
+          user ? (
+            <>
+              <MobileNavItem
+                href="/products"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleItemClick('/products');
+                }}
+              >
+                예약하기
+              </MobileNavItem>
+              <MobileNavItem
+                href="/logout"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleItemClick('/logout');
+                }}
+              >
+                로그아웃
+              </MobileNavItem>
+            </>
+          ) : (
+            <>
+              <MobileNavItem
+                href="/auth/login"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleItemClick('/auth/login');
+                }}
+              >
+                로그인
+              </MobileNavItem>
+              <MobileNavItem
+                href="/auth/signup"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleItemClick('/auth/signup');
+                }}
+              >
+                회원가입
+              </MobileNavItem>
+            </>
+          )
+        )}
       </MobileMenu>
     </>
   );

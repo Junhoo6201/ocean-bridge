@@ -11,6 +11,11 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   children?: React.ReactNode;
 }
 
+interface StyledBadgeProps {
+  $variant?: BadgeVariant;
+  $size?: BadgeSize;
+}
+
 const sizeStyles = {
   small: css`
     padding: ${({ theme }) => `${theme.spacing[0]} ${theme.spacing[2]}`};
@@ -62,7 +67,7 @@ const variantStyles = {
   `,
 };
 
-const StyledBadge = styled.span<BadgeProps>`
+const StyledBadge = styled.span<StyledBadgeProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -72,8 +77,8 @@ const StyledBadge = styled.span<BadgeProps>`
   white-space: nowrap;
   transition: all ${({ theme }) => theme.animation.duration.fast} ${({ theme }) => theme.animation.easing.easeOut};
   
-  ${({ size = 'medium' }) => sizeStyles[size]}
-  ${({ variant = 'default' }) => variantStyles[variant]}
+  ${({ $size = 'medium' }) => sizeStyles[$size]}
+  ${({ $variant = 'default' }) => variantStyles[$variant]}
 `;
 
 const Dot = styled.span<{ variant: BadgeVariant }>`
@@ -91,7 +96,7 @@ export const Badge: React.FC<BadgeProps> = ({
   ...props
 }) => {
   return (
-    <StyledBadge variant={variant} size={size} {...props}>
+    <StyledBadge $variant={variant} $size={size} {...props}>
       {dot && <Dot variant={variant} />}
       {children}
     </StyledBadge>

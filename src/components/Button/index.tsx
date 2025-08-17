@@ -134,7 +134,14 @@ const variantStyles = {
   `,
 };
 
-const StyledButton = styled.button<ButtonProps>`
+interface StyledButtonProps {
+  $variant?: ButtonVariant;
+  $size?: ButtonSize;
+  $fullWidth?: boolean;
+  $loading?: boolean;
+}
+
+const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -149,11 +156,11 @@ const StyledButton = styled.button<ButtonProps>`
   touch-action: manipulation;
   user-select: none;
   
-  ${({ size = 'medium' }) => sizeStyles[size]}
-  ${({ variant = 'primary' }) => variantStyles[variant]}
+  ${({ $size = 'medium' }) => sizeStyles[$size]}
+  ${({ $variant = 'primary' }) => variantStyles[$variant]}
   
-  ${({ fullWidth }) =>
-    fullWidth &&
+  ${({ $fullWidth }) =>
+    $fullWidth &&
     css`
       width: 100%;
     `}
@@ -172,8 +179,8 @@ const StyledButton = styled.button<ButtonProps>`
     transition: none;
   }
 
-  ${({ loading }) =>
-    loading &&
+  ${({ $loading }) =>
+    $loading &&
     css`
       pointer-events: none;
       opacity: 0.7;
@@ -225,20 +232,23 @@ const ScreenReaderOnly = styled.span`
   border-width: 0;
 `;
 
-export const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(({
-  children,
-  icon,
-  iconPosition = 'left',
-  loading = false,
-  variant = 'primary',
-  size = 'medium',
-  ariaLabel,
-  ariaDescribedBy,
-  ariaPressed,
-  disabled,
-  onClick,
-  ...props
-}, ref) => {
+export const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+  const {
+    children,
+    icon,
+    iconPosition = 'left',
+    loading = false,
+    variant = 'primary',
+    size = 'medium',
+    fullWidth = false,
+    ariaLabel,
+    ariaDescribedBy,
+    ariaPressed,
+    disabled,
+    onClick,
+    // Filter out custom props from being passed to DOM
+    ...restProps
+  } = props;
   const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     if (loading) {
       e.preventDefault();
@@ -252,9 +262,10 @@ export const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(({
   return (
     <StyledButton
       ref={ref}
-      variant={variant}
-      size={size}
-      loading={loading}
+      $variant={variant}
+      $size={size}
+      $fullWidth={fullWidth}
+      $loading={loading}
       disabled={disabled || loading}
       onClick={handleClick}
       aria-label={computedAriaLabel}
@@ -264,7 +275,7 @@ export const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(({
       aria-disabled={disabled || loading}
       role="button"
       tabIndex={disabled ? -1 : 0}
-      {...props}
+      {...restProps}
     >
       {loading && (
         <>

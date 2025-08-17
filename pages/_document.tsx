@@ -43,6 +43,7 @@ export default class MyDocument extends Document {
             rel="stylesheet" 
           />
           <meta name="theme-color" content="#08090a" />
+          <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         </Head>
